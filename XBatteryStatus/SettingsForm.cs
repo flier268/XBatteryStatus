@@ -1,16 +1,14 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace XBatteryStatus
 {
-
     public partial class SettingsForm : Form
     {
-
         private string[] audioOptions = {
             "ms-winsoundevent:Notification.Default",
             "ms-winsoundevent:Notification.IM",
@@ -27,7 +25,6 @@ namespace XBatteryStatus
             "ms-winsoundevent:Notification.Looping.Alarm8",
             "ms-winsoundevent:Notification.Looping.Alarm9",
             "ms-winsoundevent:Notification.Looping.Alarm10",
-
         };
 
         public SettingsForm()
@@ -125,9 +122,9 @@ namespace XBatteryStatus
                 e.Cancel = true;
                 tb.Focus();
                 errorProvider.SetError(tb, $"{context} cannot be blank");
-            } 
+            }
             else
-            { 
+            {
                 int val;
                 if (!int.TryParse(tb.Text, System.Globalization.NumberStyles.Any, null, out val))
                 {
@@ -145,23 +142,20 @@ namespace XBatteryStatus
                     }
                 }
             }
-
         }
+
         private void updateFrequency_Validating(object sender, CancelEventArgs e)
         {
             validateNumberText(updateFrequency, "Update Frequency", true, e);
         }
 
-
         private void Warning0_Validating(object sender, CancelEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if  (tb != null)
+            if (tb != null)
             {
                 validateNumberText(tb, "Warning Level", true, e);
             }
-
-            
         }
 
         private void OpenDataFolder_Click(object sender, EventArgs e)
@@ -173,4 +167,3 @@ namespace XBatteryStatus
         }
     }
 }
-

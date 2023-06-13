@@ -1,12 +1,9 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
@@ -16,7 +13,7 @@ namespace XBatteryStatus
 {
     public class MyApplicationContext : ApplicationContext
     {
-        NotifyIcon notifyIcon = new NotifyIcon();
+        private NotifyIcon notifyIcon = new NotifyIcon();
 
         private Timer timer1;
         private ContextMenuStrip contextMenu;
@@ -30,7 +27,6 @@ namespace XBatteryStatus
 
         public MyApplicationContext()
         {
-
             notifyIcon.Icon = Properties.Resources.iconQ;
             notifyIcon.Text = "XBatteryStatus: Looking for paired controller";
             notifyIcon.Visible = true;
@@ -64,8 +60,7 @@ namespace XBatteryStatus
             timer1.Start();
         }
 
-
-        async private void FindBleController()
+        private async void FindBleController()
         {
             int count = 0;
             foreach (var device in await DeviceInformation.FindAllAsync())
@@ -132,17 +127,17 @@ namespace XBatteryStatus
                     else notifyIcon.Icon = Properties.Resources.icon100;
 
                     if (settings.EnableLowBatteryNotifications &&
-                        (settings.LastBatteryReading > settings.WarningLevel0 && val <= settings.WarningLevel0) || 
-                        (settings.LastBatteryReading > settings.WarningLevel1 && val <= settings.WarningLevel1) || 
+                        (settings.LastBatteryReading > settings.WarningLevel0 && val <= settings.WarningLevel0) ||
+                        (settings.LastBatteryReading > settings.WarningLevel1 && val <= settings.WarningLevel1) ||
                         (settings.LastBatteryReading > settings.WarningLevel2 && val <= settings.WarningLevel2))
                     {
                         ToastContentBuilder builder = new ToastContentBuilder()
                             .AddText("Low Battery")
                             .AddText(notify);
 
-                        if (settings.EnableNotificationAudio) 
+                        if (settings.EnableNotificationAudio)
                         {
-                            builder.AddAudio(new ToastAudio() 
+                            builder.AddAudio(new ToastAudio()
                             {
                                 Src = new Uri(settings.NotificationAudio),
                                 Loop = false
@@ -157,8 +152,6 @@ namespace XBatteryStatus
                         settings.LastBatteryReading = val;
                         settings.Save();
                     }
-
-
                 }
             }
             else
@@ -174,7 +167,6 @@ namespace XBatteryStatus
             {
                 try
                 {
-
                     if (BatteryLogStream == null)
                     {
                         string filename = Path.Combine(FileHelpers.GetAppDataFolder(), "batterylog.csv");
@@ -185,11 +177,8 @@ namespace XBatteryStatus
                     await BatteryLogStream.WriteLineAsync(line);
                     await BatteryLogStream.FlushAsync();
                 }
-                catch (Exception) {}
-
+                catch (Exception) { }
             }
-
-
         }
 
         private void ConnectionStatusChanged(BluetoothLEDevice sender, object args)
@@ -222,12 +211,12 @@ namespace XBatteryStatus
             ReadBattery();
         }
 
-        private void ExitClicked(object sender, EventArgs e) 
+        private void ExitClicked(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void SettingsClicked(object sender, EventArgs e) 
+        private void SettingsClicked(object sender, EventArgs e)
         {
             // Prevent double-opening
             if (settingsForm == null)

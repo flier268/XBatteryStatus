@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 
@@ -20,6 +19,7 @@ namespace XBatteryStatus
         private bool _unsavedChanges = true;
 
         private static string _filePath = Path.Combine(FileHelpers.GetAppDataFolder(), "usersettings.cfg");
+
         private static JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
         {
             IgnoreReadOnlyProperties = true,
@@ -27,23 +27,24 @@ namespace XBatteryStatus
             WriteIndented = true
         };
 
-
         #region Properties
-        public bool EnableLowBatteryNotifications {
-            get => _enableLowBatteryNotifications; 
-            set 
+
+        public bool EnableLowBatteryNotifications
+        {
+            get => _enableLowBatteryNotifications;
+            set
             {
                 if (_enableLowBatteryNotifications != value)
                 {
                     _enableLowBatteryNotifications = value;
                     _unsavedChanges = true;
-
                 }
             }
         }
+
         public bool EnableNotificationAudio
         {
-            get => _enableNotificationAudio; 
+            get => _enableNotificationAudio;
             set
             {
                 if (_enableNotificationAudio != value)
@@ -53,9 +54,10 @@ namespace XBatteryStatus
                 }
             }
         }
+
         public string NotificationAudio
         {
-            get => _notificationAudio; 
+            get => _notificationAudio;
             set
             {
                 if (_notificationAudio != value)
@@ -65,9 +67,10 @@ namespace XBatteryStatus
                 }
             }
         }
+
         public int UpdateFrequencyMs
         {
-            get => _updateFrequencyMs; 
+            get => _updateFrequencyMs;
             set
             {
                 if (_updateFrequencyMs != value)
@@ -77,9 +80,10 @@ namespace XBatteryStatus
                 }
             }
         }
+
         public int LastBatteryReading
         {
-            get => _lastBatteryReading; 
+            get => _lastBatteryReading;
             set
             {
                 if (_lastBatteryReading != value)
@@ -89,9 +93,10 @@ namespace XBatteryStatus
                 }
             }
         }
+
         public int WarningLevel0
         {
-            get => _warningLevel0; 
+            get => _warningLevel0;
             set
             {
                 if (_warningLevel0 != value)
@@ -101,9 +106,10 @@ namespace XBatteryStatus
                 }
             }
         }
+
         public int WarningLevel1
         {
-            get => _warningLevel1; 
+            get => _warningLevel1;
             set
             {
                 if (_warningLevel1 != value)
@@ -113,9 +119,10 @@ namespace XBatteryStatus
                 }
             }
         }
+
         public int WarningLevel2
         {
-            get => _warningLevel2; 
+            get => _warningLevel2;
             set
             {
                 if (_warningLevel2 != value)
@@ -125,9 +132,10 @@ namespace XBatteryStatus
                 }
             }
         }
+
         public bool EnableBatteryLog
         {
-            get => _enableBatteryLog; 
+            get => _enableBatteryLog;
             set
             {
                 if (_enableBatteryLog != value)
@@ -137,9 +145,11 @@ namespace XBatteryStatus
                 }
             }
         }
-        #endregion
+
+        #endregion Properties
 
         private static UserSettings _settings;
+
         public static UserSettings Get()
         {
             if (_settings == null)
@@ -162,13 +172,13 @@ namespace XBatteryStatus
             {
                 return new UserSettings();
             }
-
         }
 
         private void NotifyLoaded()
         {
             _unsavedChanges = false;
         }
+
         public void Save()
         {
             if (_unsavedChanges)
@@ -183,9 +193,7 @@ namespace XBatteryStatus
                 catch (Exception)
                 {
                 }
-
             }
         }
-
     }
 }
